@@ -84,14 +84,20 @@ Confirme que carregou digitando `/` — devem aparecer os comandos `/web-kit:*`.
 /web-kit:projeto
 ```
 
-O plugin pergunta (e você pode já passar no comando):
+Isso abre uma **telinha local no navegador** (`http://127.0.0.1:<porta>`, só loopback,
+protegida por token) onde você preenche tudo num só lugar:
 1. **Empresa** — `fotus` ou `litoral` (identidade/cores/Azure)
 2. **Nome do projeto** (default `mvp-<empresa>`)
 3. **Pasta de destino** (default `~/projetos/<nome>`)
-4. **E-mail** e **senha** (mín. 10 caracteres) do superusuário do PocketBase
-5. **(Opcional)** Entra Client Secret, se for ligar o OAuth já
+4. **E-mail** e **senha** (campo mascarado, mín. 10 caracteres) do superusuário
+5. **(Opcional)** Entra Client Secret (campo mascarado)
 
-Em seguida ele copia o template, gera o `.env`, roda `npm install` e sobe o stack.
+A senha e o secret são digitados no formulário — **nunca passam pelo chat**. Ao enviar,
+a telinha cria o projeto, roda `npm install` + `npm start` e mostra os links do app e do
+PocketBase Admin assim que os servidores sobem.
+
+> **Sem navegador (headless/CI)?** Use o CLI `bin/csc-scaffold.mjs`, que pede a senha com
+> máscara no terminal (ou leia `PB_SUPERUSER_PASSWORD` do ambiente). Veja `/web-kit:projeto`.
 
 ### 2. Ver tudo funcional
 - **PocketBase Admin:** http://localhost:8090/_/ (login com o superusuário criado)
@@ -123,7 +129,9 @@ plugin-web-kit/
 │   ├── projeto/  feature/  nova-tela/  novo-componente/  novo-hook/
 │   └── dev/  reset/  oauth/  sync-telas/  superuser/
 ├── bin/
-│   └── csc-scaffold.mjs     # scaffold não-interativo (usado por /web-kit:projeto)
+│   ├── csc-setup.mjs        # telinha web (form local) — fluxo principal do /web-kit:projeto
+│   ├── csc-scaffold.mjs     # CLI fallback (prompt de senha mascarado / CI)
+│   └── lib/scaffold.mjs     # núcleo de scaffold compartilhado
 └── template/                # cópia fiel do csc-web-kit (src, pocketbase, scripts, config)
 ```
 

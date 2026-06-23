@@ -1,13 +1,14 @@
 ---
 name: projeto
-description: Cria um projeto novo do zero a partir do template csc-web-kit (scaffold completo) e sobe o ambiente (PocketBase + Vite) — equivale ao que o "npm start" do template faz no primeiro run. Use quando o usuário quiser instalar/iniciar um novo projeto.
+description: Cria um projeto novo do zero a partir do template csc-web-kit e sobe o ambiente (PocketBase + Vite). Abre uma telinha local no navegador onde o usuário preenche os dados com segurança (senha mascarada). Use quando o usuário quiser instalar/iniciar um novo projeto.
 ---
 
 # /projeto — Criar e subir um projeto do zero
 
-Materializa um projeto novo a partir do template **csc-web-kit** embutido no plugin
-e sobe o ambiente de desenvolvimento. Substitui o wizard interativo `npm start` do
-template, coletando os dados na conversa e chamando o scaffold de forma determinística.
+Materializa um projeto novo a partir do template **csc-web-kit** embutido no plugin e
+sobe o ambiente. O caminho recomendado é a **telinha web local**: o usuário preenche
+empresa, nome, pasta, e-mail, **senha** (campo mascarado) e o Entra secret (opcional)
+no navegador — nada sensível passa pelo chat.
 
 ## Pedido
 
@@ -15,70 +16,53 @@ $ARGUMENTS
 
 ---
 
-## PASSO 1 — Colete os dados (pergunte só o que faltar em `$ARGUMENTS`)
+## PASSO 1 — Abra a telinha (fluxo recomendado)
 
-Pergunte um de cada vez, com defaults claros:
-
-1. **Empresa** — `fotus` ou `litoral` (define identidade/cores/Azure). Default: `fotus`.
-2. **Nome do projeto** — kebab-case. Default: `mvp-<empresa>`.
-3. **Pasta de destino** — caminho absoluto FORA do plugin. Default: `~/projetos/<nome>`.
-4. **E-mail do superusuário** PocketBase (admin do banco).
-5. **Senha do superusuário** — mínimo 10 caracteres.
-6. **(Opcional) Entra Client Secret** — só se o usuário for configurar OAuth agora; pode ficar vazio.
-
-Confirme o resumo antes de prosseguir.
-
-## PASSO 2 — Rode o scaffold
-
-O scaffold está em `bin/csc-scaffold.mjs` deste plugin e é exposto no PATH como
-`csc-scaffold.mjs`. Ele copia o template, aplica a identidade da empresa, gera o
-`.env` e roda `git init`. É **não-interativo** — passe tudo por flags:
+Suba o servidor da telinha **em background** (é um processo de longa duração). Ele
+imprime a URL local (com token) e tenta abrir o navegador automaticamente:
 
 ```bash
-csc-scaffold.mjs \
-  --company <fotus|litoral> \
-  --name <nome> \
-  --dest <pasta-absoluta> \
-  --email <email> \
-  --password '<senha>' \
-  [--secret '<entra_client_secret>']
+node "$CLAUDE_PLUGIN_ROOT/bin/csc-setup.mjs"
 ```
 
-> Se `csc-scaffold.mjs` não estiver no PATH, use o caminho absoluto:
-> `node "$CLAUDE_PLUGIN_ROOT/bin/csc-scaffold.mjs" ...` (ou o caminho do plugin onde ele estiver instalado).
+> Se `$CLAUDE_PLUGIN_ROOT` não estiver definido, o script também é exposto no PATH como
+> `csc-setup.mjs` (rode `csc-setup.mjs`). Em último caso, use o caminho absoluto do
+> plugin instalado (`.../plugins/.../web-kit/bin/csc-setup.mjs`).
 
-Não exponha a senha em logs além do necessário.
+Capture a URL impressa (algo como `http://127.0.0.1:4321/?t=<token>`) e mostre ao
+usuário, pedindo para preencher o formulário. A telinha, ao enviar:
+1. cria o projeto a partir do template (copia tudo, gera `.env`, aplica a identidade),
+2. roda `npm install`,
+3. roda `npm start` (que baixa o PocketBase, cria o superusuário do `.env`, aplica
+   migrations e roda `pb:setup`/`pb:oauth`/`pb:sync-screens`),
+4. mostra os links **App (:5173)** e **PocketBase Admin (:8090)** quando tudo sobe.
 
-## PASSO 3 — Instale dependências e suba o ambiente
+Não peça a senha nem o secret no chat — eles são digitados na telinha. Acompanhe o
+processo; quando o usuário disser que está pronto (ou os servidores responderem),
+confirme as URLs.
 
-No diretório de destino:
+## PASSO 2 — Fallback sem navegador (terminal/CI)
+
+Se não houver navegador (ambiente headless) ou o usuário preferir o terminal, use o CLI.
+Ele pede a senha com **máscara** num TTY; **não** peça a senha no chat:
 
 ```bash
-cd "<pasta-destino>" && npm install
+# o usuário roda isto no próprio terminal (prefixo ! no Claude Code), a senha é mascarada:
+node "$CLAUDE_PLUGIN_ROOT/bin/csc-scaffold.mjs" --company <fotus|litoral> --name <nome> --dest <pasta> --email <email>
+# depois:
+cd "<pasta>" && npm install && npm start
 ```
 
-Depois suba o stack. O `npm start` do projeto gerado já:
-- baixa o binário do PocketBase (se faltar),
-- cria/sincroniza o superusuário a partir do `.env`,
-- aplica as migrations,
-- roda `pb:setup`, `pb:oauth` (se houver credenciais) e `pb:sync-screens`,
-- sobe PocketBase (`:8090`) e Vite (`:5173`) em paralelo.
+Alternativa não-interativa: definir `PB_SUPERUSER_PASSWORD` no ambiente antes de chamar o CLI.
 
-Como é um processo longo (servidor), rode em background e reporte as URLs:
+## PASSO 3 — Reporte tudo funcional
 
-```bash
-cd "<pasta-destino>" && npm start
-```
-
-(use execução em background; aguarde aparecer "Server started" do PocketBase e "Local:" do Vite).
-
-## PASSO 4 — Reporte tudo funcional
-
-Ao final, mostre ao usuário:
-- **Admin UI do PocketBase:** http://localhost:8090/_/ (login com o superusuário criado)
+Confirme ao usuário:
 - **App (Vite):** http://localhost:5173
+- **PocketBase Admin:** http://localhost:8090/_/ (login com o superusuário criado)
 - Caminho do projeto e como retomar: `cd "<pasta>" && npm start`
-- Lembre que telas novas precisam ter grupos liberados em `/telas` pelo admin.
+- Telas novas precisam ter grupos liberados em `/telas` pelo admin para aparecer.
 
-Se algo falhar (porta ocupada, binário não baixou, etc.), diagnostique a partir do log
-e proponha a correção — não declare sucesso sem evidência de que os dois servidores subiram.
+Se algo falhar (porta ocupada, binário não baixou, etc.), use o log do projeto
+(`.web-kit-start.log` na pasta dele) para diagnosticar — não declare sucesso sem
+evidência de que os dois servidores subiram.
