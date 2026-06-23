@@ -7,3 +7,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Handoff de trabalho — nunca versionar
+HANDOFF.md
