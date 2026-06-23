@@ -1,0 +1,11 @@
+{
+  "key": "fotus",
+  "name": "Fotus",
+  "loginButtonText": "Entrar com conta Fotus",
+  "primaryColor": "#0f62fe",
+  "primaryColorHover": "#0353e9",
+  "azure": {
+    "tenantId": "f0360ac6-b338-4784-8804-5fa0634aa15f",
+    "clientId": "aa17480c-a470-4f2c-9e6b-a6323b69839b"
+  }
+}

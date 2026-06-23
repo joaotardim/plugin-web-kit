@@ -1,0 +1,6 @@
+[
+  { "path": "/",         "name": "Home"                                                          },
+  { "path": "/usuarios", "name": "Usuários", "section": "Segurança", "collection": "users"      },
+  { "path": "/telas",    "name": "Telas",    "section": "Segurança"                              },
+  { "path": "/grupos",   "name": "Grupos",   "section": "Segurança"                              }
+]

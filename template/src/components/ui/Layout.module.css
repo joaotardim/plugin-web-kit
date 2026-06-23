@@ -1,0 +1,109 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  height: 56px;
+  background-color: #1a1a2e;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.headerBrand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.headerUser {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userName {
+  font-size: 0.875rem;
+  color: #c6c6c6;
+}
+
+.logoutBtn {
+  background: none;
+  border: 1px solid #525252;
+  color: #c6c6c6;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.logoutBtn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #f4f4f4;
+  border-right: 1px solid #e0e0e0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.nav {
+  padding: 0.75rem 0;
+}
+
+.navSection {
+  display: block;
+  padding: 1rem 1.25rem 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #a3a3a3;
+}
+
+.navItem {
+  display: block;
+  padding: 0.625rem 1.25rem;
+  color: #404040;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: background-color 0.15s ease;
+}
+
+.navItem:hover {
+  background-color: #e8e8e8;
+}
+
+.navItemActive {
+  background-color: #e0e7ff;
+  color: #1a1a2e;
+  font-weight: 600;
+  border-right: 3px solid #1a1a2e;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}

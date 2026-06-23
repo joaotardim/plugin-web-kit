@@ -1,0 +1,14 @@
+{
+  "name": "web-kit",
+  "owner": { "name": "joaotardim" },
+  "metadata": {
+    "description": "Marketplace do plugin web-kit (template csc-web-kit)."
+  },
+  "plugins": [
+    {
+      "name": "web-kit",
+      "source": "./",
+      "description": "Scaffold de projeto React + PocketBase e geração de telas/componentes/hooks no padrão csc-web-kit."
+    }
+  ]
+}

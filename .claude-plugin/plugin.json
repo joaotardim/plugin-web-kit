@@ -1,0 +1,10 @@
+{
+  "name": "web-kit",
+  "description": "Kit completo para apps React 18 + TypeScript + PocketBase: scaffold de projeto do zero, geração de telas/componentes/hooks no padrão csc-web-kit e comandos de ciclo de vida do backend (dev, reset, oauth, sync de telas, superusuário).",
+  "version": "0.1.0",
+  "author": { "name": "joaotardim" },
+  "homepage": "https://github.com/joaotardim/plugin-web-kit",
+  "repository": "https://github.com/joaotardim/plugin-web-kit",
+  "license": "MIT",
+  "keywords": ["react", "typescript", "pocketbase", "vite", "scaffold", "csc-web-kit"]
+}

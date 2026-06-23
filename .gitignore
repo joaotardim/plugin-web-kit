@@ -1,0 +1,9 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependências instaladas localmente (não pertencem ao plugin)
+/node_modules/
+
+# Logs
+*.log

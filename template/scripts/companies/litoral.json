@@ -1,0 +1,11 @@
+{
+  "key": "litoral",
+  "name": "Litoral",
+  "loginButtonText": "Entrar com conta Litoral",
+  "primaryColor": "#0f62fe",
+  "primaryColorHover": "#0353e9",
+  "azure": {
+    "tenantId": "",
+    "clientId": ""
+  }
+}

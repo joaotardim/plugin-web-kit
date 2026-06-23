@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PocketBase data e binário baixado automaticamente
+pocketbase/pb_data/
+pocketbase/bin/
+pocketbase/.oauth-pending.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# Reversa (engenharia reversa) e documentos de trabalho — não versionar
+.reversa/
+_reversa_sdd/
+_reversa_forward/
+.agents/
+.claude/skills/
+AGENTS.md
+HANDOFF.md
+ajuste-setup-100.md

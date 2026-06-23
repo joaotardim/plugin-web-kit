@@ -1,0 +1,31 @@
+{
+  "name": "csc-web-kit",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/dev.mjs",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "pb": "node scripts/start-pb.mjs",
+    "pb:superuser": "node scripts/pb-superuser.mjs",
+    "pb:oauth": "node scripts/pb-oauth.mjs",
+    "pb:setup": "node scripts/pb-setup.mjs",
+    "pb:sync-screens": "node scripts/pb-sync-screens.mjs",
+    "reset": "node scripts/reset.mjs"
+  },
+  "dependencies": {
+    "pocketbase": "^0.21.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.1"
+  }
+}
